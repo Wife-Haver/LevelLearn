@@ -3,6 +3,10 @@ from notes import Notes  # Importing the Notes class from the notes module
 from tasks import Tasks
 class MainApp:
     def __init__(self, root):
+        self.frames = None
+        self.right_frame = None
+        self.top_frame = None
+        self.left_frame = None
         self.root = root
         self.root.title("Demo Program")
         self.root.geometry("800x600")
@@ -36,19 +40,21 @@ class MainApp:
 
     def create_top_frame(self):
         self.top_frame = tk.Frame(self.root, bg='#0486ba', height=80)
+
+
+
         self.top_frame.pack(side='top', fill="x")
 
     def create_right_frame(self):
-        self.right_frame = tk.Frame(self.root, bg='#ffffff')
+        self.right_frame = tk.Frame(self.root, bg='white')
         self.right_frame.pack(side='right', expand=True, fill='both', padx=10, pady=20)
 
-        self.frames = {}
+        self.frames = {'Home': self.create_home_frame(),
+                       'Notes': Notes(self.right_frame).get_frame(),
+                       'Tasks': Tasks(self.right_frame).get_frame(),
+                       'Games': self.create_games_frame()
+                       }
 
-        # Create frames for different sections
-        self.frames['Home'] = self.create_home_frame()
-        self.frames['Notes'] = Notes(self.right_frame).get_frame()  # Use Notes class from notes.py
-        self.frames['Tasks'] = Tasks(self.right_frame).get_frame()
-        self.frames['Games'] = self.create_games_frame()
 
         # Place all frames on the right_frame (stacked on top of each other)
         for frame in self.frames.values():
@@ -60,16 +66,6 @@ class MainApp:
         home_label.pack(pady=20)
         return frame
 
-    def create_tasks_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-
-        create_task = tk.Frame(frame, bg="white", highlightbackground="black", highlightthickness="1")
-        create_task.place(relwidth=0.33, relheight=1, relx=0, rely=0)
-
-        ongoing_task = tk.Frame(frame, bg="white", highlightbackground="black", highlightthickness="1")
-        ongoing_task.place(relwidth=0.33, relheight=1, relx=0.33, rely=0)
-        
-        return frame
 
     def create_games_frame(self):
         frame = tk.Frame(self.right_frame, bg='white')
