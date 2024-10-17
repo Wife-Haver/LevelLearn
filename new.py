@@ -1,6 +1,6 @@
 import tkinter as tk
 from notes import Notes  # Importing the Notes class from the notes module
-
+from tasks import Tasks
 class MainApp:
     def __init__(self, root):
         self.root = root
@@ -47,7 +47,7 @@ class MainApp:
         # Create frames for different sections
         self.frames['Home'] = self.create_home_frame()
         self.frames['Notes'] = Notes(self.right_frame).get_frame()  # Use Notes class from notes.py
-        self.frames['Tasks'] = self.create_tasks_frame()
+        self.frames['Tasks'] = Tasks(self.right_frame).get_frame()
         self.frames['Games'] = self.create_games_frame()
 
         # Place all frames on the right_frame (stacked on top of each other)
@@ -77,7 +77,8 @@ class MainApp:
         games_label.pack(pady=20)
         return frame
 
-    def show_frame(self, frame):
+    @staticmethod
+    def show_frame(frame):
         frame.tkraise()
 
     def show_home_frame(self):
