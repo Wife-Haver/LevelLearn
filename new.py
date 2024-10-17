@@ -1,6 +1,11 @@
 import tkinter as tk
+from unittest.mock import right
+
+from PIL.ImageColor import colormap
+
 from notes import Notes  # Importing the Notes class from the notes module
 from tasks import Tasks
+from xp_bar import XPBar
 class MainApp:
     def __init__(self, root):
         self.frames = None
@@ -39,11 +44,21 @@ class MainApp:
                       activebackground="#7990dc", activeforeground="white", command=command).pack(pady=10)
 
     def create_top_frame(self):
-        self.top_frame = tk.Frame(self.root, bg='#0486ba', height=80)
+        self.top_frame = tk.Frame(self.root,height=80,bg="#0486ba")
+        self.top_frame.pack_propagate(False)
+
+        level_label = tk.Label(self.top_frame,text="Lvl:1",bg="#0486ba")
+
+        exp_bar = XPBar(self.top_frame, max_xp=100)
 
 
-
+        exp_bar.pack(side="right")
+        level_label.pack(side= "right")
         self.top_frame.pack(side='top', fill="x")
+
+
+
+
 
     def create_right_frame(self):
         self.right_frame = tk.Frame(self.root, bg='white')
