@@ -1,11 +1,15 @@
 import tkinter as tk
-from tkinter import ttk, Scrollbar, Text
-from PIL import Image, ImageTk
-import os
+import customtkinter as ctk
 
-
+from notes import Notes  # Importing the Notes class from the notes module
+from tasks import Tasks
+from xp_bar import XPBar
 class MainApp:
     def __init__(self, root):
+        self.frames = None
+        self.right_frame = None
+        self.top_frame = None
+        self.left_frame = None
         self.root = root
         self.root.title("Demo Program")
         self.root.geometry("800x600")
@@ -15,7 +19,7 @@ class MainApp:
         self.create_left_frame()
         self.create_top_frame()
         self.create_right_frame()
-        
+
         # Initialize default frame (Home)
         self.show_frame(self.frames['Home'])
 
@@ -38,20 +42,32 @@ class MainApp:
                       activebackground="#7990dc", activeforeground="white", command=command).pack(pady=10)
 
     def create_top_frame(self):
-        self.top_frame = tk.Frame(self.root, bg='#0486ba', height=80)
+        self.top_frame = tk.Frame(self.root,height=80,bg="#0486ba")
+        self.top_frame.pack_propagate(False)
+
+        level_label = tk.Label(self.top_frame,text="Lvl:1",bg="#0486ba")
+
+        exp_bar = XPBar(self.top_frame)
+
+
+        exp_bar.pack(side="right")
+        level_label.pack(side= "right")
         self.top_frame.pack(side='top', fill="x")
 
+
+
+
+
     def create_right_frame(self):
-        self.right_frame = tk.Frame(self.root, bg='#ffffff')
+        self.right_frame = tk.Frame(self.root, bg='white')
         self.right_frame.pack(side='right', expand=True, fill='both', padx=10, pady=20)
 
-        self.frames = {}
+        self.frames = {'Home': self.create_home_frame(),
+                       'Notes': Notes(self.right_frame).get_frame(),
+                       'Tasks': Tasks(self.right_frame).get_frame(),
+                       'Games': self.create_games_frame()
+                       }
 
-        # Create frames for different sections
-        self.frames['Home'] = self.create_home_frame()
-        self.frames['Notes'] = self.create_notes_frame()
-        self.frames['Tasks'] = self.create_tasks_frame()
-        self.frames['Games'] = self.create_games_frame()
 
         # Place all frames on the right_frame (stacked on top of each other)
         for frame in self.frames.values():
@@ -63,33 +79,6 @@ class MainApp:
         home_label.pack(pady=20)
         return frame
 
-    def create_notes_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-        
-        scroll_bar = Scrollbar(frame)
-        scroll_bar.pack(side="right", fill="y")
-
-        self.text_area = Text(frame, wrap=tk.WORD, yscrollcommand=scroll_bar.set)
-        self.text_area.pack(fill="both", expand=True)
-
-        scroll_bar.config(command=self.text_area.yview)
-
-        # Clear button
-        clear_button = tk.Button(frame, text="CLEAR", font=("Arial", 15), bg='white', fg='#333333', command=self.clear_text, bd=0)
-        clear_button.pack(side="bottom")
-        
-        return frame
-
-    def create_tasks_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-        
-        create_task = tk.Frame(frame, bg="white", highlightbackground="black", highlightthickness="1")
-        create_task.place(relwidth=0.33, relheight=1, relx=0, rely=0)
-
-        ongoing_task = tk.Frame(frame, bg="white", highlightbackground="black", highlightthickness="1")
-        ongoing_task.place(relwidth=0.33, relheight=1, relx=0.33, rely=0)
-        
-        return frame
 
     def create_games_frame(self):
         frame = tk.Frame(self.right_frame, bg='white')
@@ -97,7 +86,8 @@ class MainApp:
         games_label.pack(pady=20)
         return frame
 
-    def show_frame(self, frame):
+    @staticmethod
+    def show_frame(frame):
         frame.tkraise()
 
     def show_home_frame(self):
@@ -111,10 +101,6 @@ class MainApp:
 
     def show_games_frame(self):
         self.show_frame(self.frames['Games'])
-
-    def clear_text(self):
-        self.text_area.delete(1.0, tk.END)
-
 
 if __name__ == "__main__":
     root = tk.Tk()
