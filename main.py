@@ -11,8 +11,8 @@ class MainApp:
         self.top_frame = None
         self.left_frame = None
         self.root = root
-        self.root.title("Demo Program")
-        self.root.geometry("800x600")
+        self.root.title("LevelLearn")
+        self.root.geometry("1000x600")
         self.root.configure(bg='#333333')
         
         # Create frames and UI layout
@@ -27,7 +27,7 @@ class MainApp:
         self.left_frame = tk.Frame(self.root, bg='#0486ba')
         self.left_frame.pack(side='left', fill='y')
 
-        program_label = tk.Label(master=self.left_frame, text="Program", font=("Arial", 25), bg='#0486ba', fg='white')
+        program_label = tk.Label(master=self.left_frame, text="LevelLearn", font=("Arial", 25), bg='#0486ba', fg='white')
         program_label.pack(pady=10)
 
         # Create buttons using a loop to reduce redundancy
