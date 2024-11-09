@@ -76,7 +76,21 @@ class MainApp:
     def create_home_frame(self):
         frame = tk.Frame(self.right_frame, bg='white')
         home_label = tk.Label(frame, text="Home Page", font=("Arial", 20), bg='white', fg='#333333')
-        home_label.pack(pady=20)
+        home_label.grid(row=0,column=0)
+
+        frame1=ctk.CTkFrame(frame,width=200,height=200,corner_radius=4,border_width=3,bg_color="#f0f0f0")
+        frame2=ctk.CTkFrame(frame,width=200,height=200,corner_radius=4,border_width=3,bg_color="#f0f0f0")
+        frame3 = ctk.CTkFrame(frame, width=300, height=150, corner_radius=4, border_width=3, bg_color="#f0f0f0")
+        frame4 = ctk.CTkFrame(frame, width=200, height=200, corner_radius=4, border_width=3, bg_color="#f0f0f0")
+
+        # frame2.grid(row=1, column=3)
+        # frame3.grid(row=2, column=0)
+        # frame1.grid(row=1,column=1)
+        # frame4.grid(row=2, column=2)
+
+
+
+
         return frame
 
 
