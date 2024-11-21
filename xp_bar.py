@@ -24,13 +24,13 @@ class XPBar(tk.Frame):
             self.progressbar.pack(padx =20 )
 
 
-            def  add_xp():
-                progress = self.progressbar.get()
-                if progress < 0.9:
-                    self.progressbar.set(progress + 0.1)
-                elif progress >= 0.9:
-                    self.progressbar.set(0)
-                self.current_xp = progress
+        def  add_xp(self):
+            progress = self.progressbar.get()
+            if progress < 0.9:
+                 self.progressbar.set(progress + 0.1)
+            elif progress >= 0.9:
+                self.progressbar.set(0)
+            self.current_xp = progress
 
             # self.btn = tk.Button(self.frame, text="increment", command=add_xp)
             # self.btn.pack()

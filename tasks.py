@@ -5,7 +5,7 @@ from tkinter import *
 
 import customtkinter as ctk
 
-from backend import tasks_backend
+from xp_bar import XPBar
 
 task_list = []
 class TaskClass:
@@ -170,7 +170,7 @@ class Tasks:
         self.markAsDone_btn = ctk.CTkButton(frame3b, text="DONE", width=80,fg_color="green")
         self.markAsDone_btn.pack()
 
-
+        #IGNORE
         # self.finished_tasks_label=ctk.CTkLabel(frame3b,text="Finished tasks",wraplength=250)
         # self.finished_tasks_label.pack(pady=10,padx=10)
         # self.scrollbar2 = ctk.CTkScrollbar(frame3b)
