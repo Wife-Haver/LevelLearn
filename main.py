@@ -21,7 +21,7 @@ class MainApp:
         self.create_right_frame()
 
         # Initialize default frame (Home)
-        self.show_frame(self.frames['Home'])
+        self.show_frame(self.frames['Tasks'])
 
     def create_left_frame(self):
         self.left_frame = tk.Frame(self.root, bg='#0486ba')
