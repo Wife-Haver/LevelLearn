@@ -7,9 +7,9 @@ import customtkinter as ctk
 
 
 class XPBar(tk.Frame):
-        def __init__(self, parent, max_xp = 100,**kwargs):
+        def __init__(self):
 
-            super().__init__(parent, **kwargs)
+            super().__init__()
             self.current_xp = 0
 
             self.frame = tk.Frame(self,bg="#0486ba")
@@ -24,7 +24,9 @@ class XPBar(tk.Frame):
             self.progressbar.pack(padx =20 )
 
 
-        def  add_xp(self):
+        def  add_xp(self,exp):
+
+
             progress = self.progressbar.get()
             if progress < 0.9:
                  self.progressbar.set(progress + 0.1)

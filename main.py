@@ -1,11 +1,18 @@
 import tkinter as tk
+from tkinter import Label
+from xml.etree.ElementTree import tostring
+
 import customtkinter as ctk
 
 from notes import Notes  # Importing the Notes class from the notes module
 from tasks import Tasks
+from tools import Tools
 from xp_bar import XPBar
+
 class MainApp:
     def __init__(self, root):
+        self.level_label = None
+        self.exp_bar = None
         self.frames = None
         self.right_frame = None
         self.top_frame = None
@@ -14,7 +21,7 @@ class MainApp:
         self.root.title("LevelLearn")
         self.root.geometry("1000x600")
         self.root.configure(bg='#333333')
-        
+
         # Create frames and UI layout
         self.create_left_frame()
         self.create_top_frame()
@@ -35,39 +42,40 @@ class MainApp:
             ("Home", self.show_home_frame),
             ("Notes", self.show_notes_frame),
             ("Tasks", self.show_tasks_frame),
-            ("Games", self.show_games_frame)
+            ("Games", self.show_games_frame),
+            ("Tools", self.show_tools_frame),  # New Tools button
         ]
         for text, command in buttons:
             tk.Button(self.left_frame, text=text, font=("Arial", 15), bd=0, bg="#79ADDC", fg="white", width=7,
                       activebackground="#7990dc", activeforeground="white", command=command).pack(pady=10)
 
     def create_top_frame(self):
-        self.top_frame = tk.Frame(self.root,height=80,bg="#0486ba")
+        self.top_frame = tk.Frame(self.root, height=80, bg="#0486ba")
         self.top_frame.pack_propagate(False)
 
-        level_label = tk.Label(self.top_frame,text="Lvl:1",bg="#0486ba")
+        self.level_label = tk.Label(self.top_frame, text="Lvl:1", bg="#0486ba")
+        self.current_level = 0
 
-        exp_bar = XPBar(self.top_frame)
+        self.level_label.config(text=f"Level:{self.current_level}")
+        self.exp_bar = ctk.CTkProgressBar(self.top_frame, width=150, height=20, corner_radius=0,
+                                          progress_color="#5cf25c")
+        self.exp_bar.set(0)
 
-
-        exp_bar.pack(side="right")
-        level_label.pack(side= "right")
+        self.exp_bar.pack(side="right", padx=10)
+        self.level_label.pack(side="right")
         self.top_frame.pack(side='top', fill="x")
-
-
-
-
 
     def create_right_frame(self):
         self.right_frame = tk.Frame(self.root, bg='white')
         self.right_frame.pack(side='right', expand=True, fill='both', padx=10, pady=20)
 
-        self.frames = {'Home': self.create_home_frame(),
-                       'Notes': Notes(self.right_frame).get_frame(),
-                       'Tasks': Tasks(self.right_frame).get_frame(),
-                       'Games': self.create_games_frame()
-                       }
-
+        self.frames = {
+            'Home': self.create_home_frame(),
+            'Notes': Notes(self.right_frame).get_frame(),
+            'Tasks': Tasks(self.right_frame).get_frame(),
+            'Games': self.create_games_frame(),
+            'Tools': Tools(self.right_frame).get_frame(),  # Adding Tools frame
+        }
 
         # Place all frames on the right_frame (stacked on top of each other)
         for frame in self.frames.values():
@@ -76,28 +84,44 @@ class MainApp:
     def create_home_frame(self):
         frame = tk.Frame(self.right_frame, bg='white')
         home_label = tk.Label(frame, text="Home Page", font=("Arial", 20), bg='white', fg='#333333')
-        home_label.grid(row=0,column=0)
+        home_label.grid(row=0, column=0)
 
-        frame1=ctk.CTkFrame(frame,width=200,height=200,corner_radius=4,border_width=3,bg_color="#f0f0f0")
-        frame2=ctk.CTkFrame(frame,width=200,height=200,corner_radius=4,border_width=3,bg_color="#f0f0f0")
-        frame3 = ctk.CTkFrame(frame, width=300, height=150, corner_radius=4, border_width=3, bg_color="#f0f0f0")
-        frame4 = ctk.CTkFrame(frame, width=200, height=200, corner_radius=4, border_width=3, bg_color="#f0f0f0")
+        def add_xp(dif):
+            exp_value = None
 
-        # frame2.grid(row=1, column=3)
-        # frame3.grid(row=2, column=0)
-        # frame1.grid(row=1,column=1)
-        # frame4.grid(row=2, column=2)
+            if dif == "simple":
+                exp_value = 0.1
+            elif dif == "moderate":
+                exp_value = 0.3
+            elif dif == "complex":
+                exp_value = 0.5
 
+            current_xp = self.exp_bar.get()
+            if current_xp < 0.9:
+                self.exp_bar.set(current_xp + exp_value)
+            elif current_xp >= 0.9:
+                self.current_level += 1
+                self.level_label.config(text=f"Level:{self.current_level}")
+                self.exp_bar.set(0)
 
+            self.current_xp = current_xp
 
+        diff = "simple"
+        btn = ctk.CTkButton(frame, text="click", command=lambda: add_xp(diff))
+        btn.grid(row=1, column=2)
 
         return frame
-
 
     def create_games_frame(self):
         frame = tk.Frame(self.right_frame, bg='white')
         games_label = tk.Label(frame, text="Games Page", font=("Arial", 20), bg='white', fg='#333333')
         games_label.pack(pady=20)
+        return frame
+
+    def create_tools_frame(self):
+        frame = tk.Frame(self.right_frame, bg='white')
+        tools_label = tk.Label(frame, text="Tools Page", font=("Arial", 20), bg='white', fg='#333333')
+        tools_label.pack(pady=20)
         return frame
 
     @staticmethod
@@ -115,6 +139,9 @@ class MainApp:
 
     def show_games_frame(self):
         self.show_frame(self.frames['Games'])
+
+    def show_tools_frame(self):  # New method to handle Tools frame
+        self.show_frame(self.frames['Tools'])
 
 if __name__ == "__main__":
     root = tk.Tk()
