@@ -1,101 +1,90 @@
-# notes.py
-
 import tkinter as tk
-from tkinter import Scrollbar, Text, Entry
+from tkinter import ttk
+from tkinter import scrolledtext
+from tkinter import filedialog
 
 class Notes:
     def __init__(self, parent):
+        # Create the main frame for the Notes app
         self.frame = tk.Frame(parent, bg='white')
 
-        # Tabs row for Save, Clear, and Exit
-        tab_frame = tk.Frame(self.frame, bg='#f0f0f0')  # Light gray background for a Notepad-like look
+        # Tab header
+        tab_frame = tk.Frame(self.frame, bg='#B4B4B4')
         tab_frame.pack(fill="x")
 
-        # Save Button (acting as a tab)
-        save_button = tk.Button(
-            tab_frame,
-            text="SAVE",
-            font=("Arial", 14),
-            bg='#d3d3d3',  # Light gray color for buttons, matching Notepad
-            fg='black',  # Black text for better contrast
-            command=self.save_notes,
-            relief="flat",
-            bd=1,
-            padx=15,
-            pady=5
+        # Button Tabs
+        filebutton = tk.Menubutton(tab_frame, text="File", bg="#E0E0E0", relief="raised", width=5)
+        filemenu = tk.Menu(filebutton, tearoff=False)
+        filemenu.add_command(label="Save", command=self.save_file)
+        filemenu.add_command(label="Save as", command=self.save_file)
+        filemenu.add_command(label="Open", command=self.open_file)
+        filemenu.add_command(label="Exit", command=parent.quit)
+        filebutton["menu"] = filemenu
+        filebutton.pack(side="left", padx=5, pady=5)
+
+        editbutton = tk.Menubutton(tab_frame, text="Edit", bg="#E0E0E0", relief="raised", width=5)
+        editmenu = tk.Menu(editbutton, tearoff=False)
+        editmenu.add_command(label="Cut", command=self.cut_text)
+        editmenu.add_command(label="Copy", command=self.copy_text)
+        editmenu.add_command(label="Paste", command=self.paste_text)
+        editmenu.add_command(label="Clear", command=self.delete_text)
+        editbutton["menu"] = editmenu
+        editbutton.pack(side="left", padx=5, pady=5)
+
+        # Text area for writing notes
+        self.text_box = scrolledtext.ScrolledText(self.frame, wrap='word', bg="white", relief="flat",highlightthickness=0)
+        self.text_box.pack(padx=5, pady=5, fill="both")
+
+    # Definition methods
+    def save_file(self):
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".txt",
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
         )
-        save_button.pack(side="left", padx=(5, 5))
+        if file_path:  # Ensure the user didn't cancel the dialog
+            with open(file_path, 'w', encoding='utf-8') as file:
+                # Remove the trailing newline added by tk.Text
+                content = self.text_box.get("1.0", tk.END).rstrip("\n")
+                file.write(content)
 
-        # Clear Button (acting as a tab)
-        clear_button = tk.Button(
-            tab_frame,
-            text="CLEAR",
-            font=("Arial", 14),
-            bg='#d3d3d3',  # Light gray for buttons
-            fg='black',
-            command=self.clear_text,
-            relief="flat",
-            bd=1,
-            padx=15,
-            pady=5
+    def open_file(self):
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
         )
-        clear_button.pack(side="left", padx=(0, 5))
+        if file_path:
+            with open(file_path, 'r') as file:
+                content = file.read()
+            self.text_box.delete("1.0", tk.END)
+            self.text_box.insert("1.0", content)
 
-        # Exit Button (acting as a tab)
-        exit_button = tk.Button(
-            tab_frame,
-            text="EXIT",
-            font=("Arial", 14),
-            bg='#d3d3d3',  # Light gray
-            fg='black',
-            command=parent.quit,
-            relief="flat",
-            bd=1,
-            padx=15,
-            pady=5
-        )
-        exit_button.pack(side="left", padx=(0, 5))
 
-        # Title Label and Entry
-        title_label = tk.Label(self.frame, text="Title", font=("Arial", 14), bg='white', anchor="w")
-        title_label.pack(fill="x", padx=10, pady=(10, 2))
+    def copy_text(self):
+        text_content = self.text_box.get("1.0", tk.END).strip()
+        if text_content:
+            self.text_box.clipboard_clear()
+            self.text_box.clipboard_append(text_content)
+    def cut_text(self):
+        text_content = self.text_box.get("1.0", tk.END).strip()
+        if text_content:
+            self.text_box.clipboard_clear()
+            self.text_box.clipboard_append(text_content)
+            self.text_box.delete("1.0", tk.END)
+    def delete_text(self):
+        text_content = self.text_box.get("1.0", tk.END).strip()
+        if text_content:
+            self.text_box.delete("1.0", tk.END)
+    def paste_text(self):
+        try:
+            clipboard_content = self.frame.clipboard_get()
+            self.text_box.insert(tk.INSERT, clipboard_content)
+        except tk.TclError:
+            # Handle the case where clipboard is empty
+            pass
 
-        self.title_entry = Entry(self.frame, font=("Arial", 12), bg="#f9f9f9", bd=1, relief="solid", width=30)
-        self.title_entry.pack(fill="x", padx=10, pady=(0, 10))
 
-        # Notes Label and Text Area
-        notes_label = tk.Label(self.frame, text="Notes", font=("Arial", 14), bg='white', anchor="w")
-        notes_label.pack(fill="x", padx=10, pady=(0, 2))
 
-        text_frame = tk.Frame(self.frame, bg="white")
-        text_frame.pack(fill="x", padx=10, pady=(0, 10))
 
-        scroll_bar = Scrollbar(text_frame)
-        scroll_bar.pack(side="right", fill="y")
-
-        self.text_area = Text(
-            text_frame,
-            wrap=tk.WORD,
-            yscrollcommand=scroll_bar.set,
-            font=("Arial", 12),
-            bg="#f9f9f9",
-            bd=1,
-            relief="solid",
-            height=15,
-        )
-        self.text_area.pack(side="left", fill="both", expand=True)
-        scroll_bar.config(command=self.text_area.yview)
-
-    def clear_text(self):
-        # Clear the content of the Title and Notes area
-        self.text_area.delete(1.0, tk.END)
-        self.title_entry.delete(0, tk.END)
-
-    def save_notes(self):
-        # Placeholder for saving notes functionality
-        title = self.title_entry.get()
-        content = self.text_area.get(1.0, tk.END)
-        print(f"Saving Notes...\nTitle: {title}\nContent: {content}")
 
     def get_frame(self):
         return self.frame
+
