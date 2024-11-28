@@ -3,6 +3,8 @@ from tkinter import *
 
 import customtkinter as ctk
 
+
+
 task_list = []  # Global list of tasks
 
 
@@ -14,8 +16,10 @@ class TaskClass:
 
 
 class Tasks:
-    def __init__(self, parent):
+    def __init__(self, parent,main_app):
         self.frame = tk.Frame(parent, bg='white')
+        self.main_app = main_app
+        self.selected_task = None
         self.frame.grid(row=0, column=0, sticky="nsew")
         self.frame.columnconfigure([0, 1, 2], weight=1)
         self.frame.rowconfigure(0, weight=1)
@@ -25,8 +29,14 @@ class Tasks:
         frame2 = tk.Frame(self.frame, bg="white", borderwidth=0.5, relief="solid", width=200)
         frame3 = tk.Frame(self.frame, bg="white", borderwidth=0.5, relief="solid", width=200)
 
-        frame3a = tk.Frame(frame3, bg="#f0f0f0", borderwidth=0.5, relief="solid", width=200)
-        frame3b = tk.Frame(frame3, bg="#f0f0f0", borderwidth=0.5, relief="solid")
+        frame3a = tk.Frame(frame3, bg="#f0f0f0", borderwidth=0.5, relief="solid", width=200,height=200)
+        frame3b = tk.Frame(frame3, bg="#f0f0f0", borderwidth=0.5, relief="solid", width=200,height=200)
+
+        frame1.grid_propagate(False)
+        frame2.grid_propagate(False)
+        frame3.grid_propagate(False)
+        frame3a.pack_propagate(False)
+        frame3b.pack_propagate(False)
 
         frame1.grid(row=0, column=0, sticky="nsew")
         frame2.grid(row=0, column=1, sticky="nsew")
@@ -65,6 +75,8 @@ class Tasks:
                 task_list.append(new_task)
                 self.display_task_in_list(new_task)  # Display new task in the list
                 clear_fields()
+
+
             else:
                 print("Title is required!")
 
@@ -124,6 +136,9 @@ class Tasks:
 
     def mark_task_as_done(self):
         if self.selected_task:
+
+            difficulty = self.selected_task.diff
+            self.main_app.add_xp(difficulty)
             task_list.remove(self.selected_task)
             self.selected_task = None
 

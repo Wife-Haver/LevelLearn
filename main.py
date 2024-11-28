@@ -10,6 +10,28 @@ from tools import Tools
 from xp_bar import XPBar
 
 class MainApp:
+
+    def add_xp(self,dif):
+        exp_value = None
+
+        if dif == "simple":
+            exp_value = 0.1
+        elif dif == "moderate":
+            print("PRINTED")
+            exp_value = 0.3
+        elif dif == "complex":
+            exp_value = 0.5
+
+        current_xp = self.exp_bar.get()
+        if current_xp < 0.9:
+            self.exp_bar.set(current_xp + exp_value)
+        elif current_xp >= 0.9:
+            self.current_level += 1
+            self.level_label.config(text=f"Level:{self.current_level}")
+            self.exp_bar.set(0)
+
+        self.current_xp = current_xp
+
     def __init__(self, root):
         self.level_label = None
         self.exp_bar = None
@@ -72,7 +94,7 @@ class MainApp:
         self.frames = {
             'Home': self.create_home_frame(),
             'Notes': Notes(self.right_frame).get_frame(),
-            'Tasks': Tasks(self.right_frame).get_frame(),
+            'Tasks': Tasks(self.right_frame,self).get_frame(),
             'Games': self.create_games_frame(),
             'Tools': Tools(self.right_frame).get_frame(),  # Adding Tools frame
         }
@@ -86,28 +108,10 @@ class MainApp:
         home_label = tk.Label(frame, text="Home Page", font=("Arial", 20), bg='white', fg='#333333')
         home_label.grid(row=0, column=0)
 
-        def add_xp(dif):
-            exp_value = None
 
-            if dif == "simple":
-                exp_value = 0.1
-            elif dif == "moderate":
-                exp_value = 0.3
-            elif dif == "complex":
-                exp_value = 0.5
-
-            current_xp = self.exp_bar.get()
-            if current_xp < 0.9:
-                self.exp_bar.set(current_xp + exp_value)
-            elif current_xp >= 0.9:
-                self.current_level += 1
-                self.level_label.config(text=f"Level:{self.current_level}")
-                self.exp_bar.set(0)
-
-            self.current_xp = current_xp
 
         diff = "simple"
-        btn = ctk.CTkButton(frame, text="click", command=lambda: add_xp(diff))
+        btn = ctk.CTkButton(frame, text="click", command=lambda: self.add_xp(diff))
         btn.grid(row=1, column=2)
 
         return frame
