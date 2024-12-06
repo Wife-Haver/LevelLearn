@@ -7,6 +7,7 @@ import customtkinter as ctk
 from notes import Notes  # Importing the Notes class from the notes module
 from tasks import Tasks
 from tools import Tools
+from games import Games
 from xp_bar import XPBar
 
 class MainApp:
@@ -50,7 +51,7 @@ class MainApp:
         self.create_right_frame()
 
         # Initialize default frame (Home)
-        self.show_frame(self.frames['Tasks'])
+        self.show_frame(self.frames['Games'])
 
     def create_left_frame(self):
         self.left_frame = tk.Frame(self.root, bg='#0486ba')
@@ -95,7 +96,7 @@ class MainApp:
             'Home': self.create_home_frame(),
             'Notes': Notes(self.right_frame).get_frame(),
             'Tasks': Tasks(self.right_frame,self).get_frame(),
-            'Games': self.create_games_frame(),
+            'Games': Games(self.right_frame).get_frame(),
             'Tools': Tools(self.right_frame).get_frame(),  # Adding Tools frame
         }
 
@@ -112,7 +113,7 @@ class MainApp:
 
         diff = "simple"
         btn = ctk.CTkButton(frame, text="click", command=lambda: self.add_xp(diff))
-        btn.grid(row=1, column=2)
+        #btn.grid(row=1, column=2)
 
         return frame
 
