@@ -12,6 +12,10 @@ class Notes:
         tab_frame = tk.Frame(self.frame, bg='#B4B4B4')
         tab_frame.pack(fill="x")
 
+        # Text area for writing notes
+        self.text_box = scrolledtext.ScrolledText(self.frame, wrap='word', bg="white", relief="flat", highlightthickness=0, undo=True)
+        self.text_box.pack(padx=5, pady=5, fill="both")
+
         # Button Tabs
         filebutton = tk.Menubutton(tab_frame, text="File", bg="#E0E0E0", relief="raised", width=5)
         filemenu = tk.Menu(filebutton, tearoff=False)
@@ -28,12 +32,12 @@ class Notes:
         editmenu.add_command(label="Copy", command=self.copy_text)
         editmenu.add_command(label="Paste", command=self.paste_text)
         editmenu.add_command(label="Clear", command=self.delete_text)
+        editmenu.add_command(label="Undo", command=self.text_box.edit_undo)
+        editmenu.add_command(label="Redo", command=self.text_box.edit_redo)
         editbutton["menu"] = editmenu
         editbutton.pack(side="left", padx=5, pady=5)
 
-        # Text area for writing notes
-        self.text_box = scrolledtext.ScrolledText(self.frame, wrap='word', bg="white", relief="flat",highlightthickness=0)
-        self.text_box.pack(padx=5, pady=5, fill="both")
+
 
     # Definition methods
     def save_file(self):
