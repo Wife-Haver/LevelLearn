@@ -1,3 +1,4 @@
+# flashcard_tool.py
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
@@ -5,8 +6,6 @@ from tkinter import filedialog, messagebox
 class FlashcardTool:
     def __init__(self, parent):
         self.frame = tk.Frame(parent, bg="lightblue")
-        label = tk.Label(self.frame, text="Flashcard Tool", font=("Arial", 24), bg="lightblue")
-        #label.pack(pady=20)
 
         # Initialize attributes
         self.flashcards = []

@@ -1,21 +1,15 @@
 import tkinter as tk
-from tkinter import *
-
 import customtkinter as ctk
 from PIL import Image
-import auto_flashcards
-from auto_flashcards import FlashcardTool
+from tools_folder.auto_flashcards import FlashcardTool
+from tools_folder.alphabetize import Alphabetize
+
 
 class Tools:
     def __init__(self, parent):
         # Main container frame
         self.frame = tk.Frame(parent, bg="white")
         self.current_frame = None
-
-        # Back button, initially hidden
-        self.back_btn = ctk.CTkButton(self.frame, text="Back", command=self.show_selection)
-        self.back_btn.pack(side="bottom", anchor="sw")
-        self.back_btn.pack_forget()
 
         # Load tool icons and buttons
         self.load_tools()
@@ -32,33 +26,39 @@ class Tools:
         self.flashcard_btn = ctk.CTkButton(
             self.frame,
             image=self.tool_icon,
-            text="",
-            command=lambda: self.switch_frame(FlashcardTool)
+            text="",  # Added text to clarify button purpose
+            command=self.open_flashcards
         )
         self.flashcard_btn.pack(side="top", anchor="nw", padx=20, pady=20)
 
-    def switch_frame(self, tool_class):
-        # Hide the current frame (if any)
-        if self.current_frame:
-            self.current_frame.pack_forget()
+        #Sort alphabetically tool
+        self.sorter_btn = ctk.CTkButton(
+            self.frame,
+            #image=
+            text="sorter",
+            command=self.open_alphabetical
+        )
+        self.sorter_btn.pack(side="top", anchor="nw", padx=20, pady=20)
 
-        # Create and show the new frame
-        self.current_frame = tool_class(self.frame).get_frame()
-        self.current_frame.pack(fill="both", expand=True)
+    def open_flashcards(self):
+        # Create a new top-level window for flashcards
+        flashcard_window = tk.Toplevel(self.frame)
+        flashcard_window.title("Flashcard Tool")
+        flashcard_window.geometry("500x600")
 
-        # Hide main frame and show the back button
-        #self.frame.pack_forget()
-        self.back_btn.pack(side="bottom", anchor="sw")
+        # Create FlashcardTool instance in the new window
+        flashcard_app = FlashcardTool(flashcard_window)
 
-    def show_selection(self):
-        # Hide the current tool frame (if any)
-        if self.current_frame:
-            self.current_frame.pack_forget()
-            self.current_frame = None
+        # Pack the frame
+        flashcard_app.get_frame().pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
+    def open_alphabetical(self):
+        sorter_window = tk.Toplevel(self.frame)
+        sorter_window.title("Sort by alphabet tool")
+        sorter_window.geometry("500x600")
 
-        # Show the main frame and hide the back button
-        self.frame.pack(fill="both", expand=True)
-        self.back_btn.pack_forget()
+        sorter_app = Alphabetize(sorter_window)
+
+        sorter_app.get_frame().pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
 
     def get_frame(self):
         return self.frame
