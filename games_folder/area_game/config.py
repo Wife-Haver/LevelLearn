@@ -3,3 +3,7 @@ SCREEN_HEIGHT = 600
 FPS = 60
 
 PLAYER_SPEED = 5
+
+
+blue = (52, 210, 235)
+WHITE = (255, 255, 255)

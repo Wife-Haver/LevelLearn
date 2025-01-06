@@ -16,7 +16,7 @@ class Games:
     def __init__(self,parent):
 
         self.frame = tk.Frame(parent,bg="white")
-        PYGAME_FILE_PATH = "games_folder/area_game/main.py"
+        PYGAME_FILE_PATH = "games_folder/area_game/game1.py"
         def launch_pygame_program():
             try:
                 # Ensure the path is absolute
