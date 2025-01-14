@@ -7,6 +7,10 @@ import customtkinter as ctk
 
 task_list = []  # Global list of tasks
 
+
+
+#new_task = TaskClass(title, desc, difficulty)
+
 def get_tasks():
     return task_list
 
@@ -15,6 +19,10 @@ class TaskClass:
         self.title = title
         self.desc = desc
         self.diff = diff
+
+
+
+
 
 
 class Tasks:

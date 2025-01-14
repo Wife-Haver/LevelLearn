@@ -25,7 +25,7 @@ class Games:
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to launch the game: {e}")
 
-        self.game1_btn=ctk.CTkButton(self.frame,width=40,height=40,command=launch_pygame_program)
+        self.game1_btn=ctk.CTkButton(self.frame,text="",width=40,height=40,command=launch_pygame_program)
         self.game1_btn.pack()
 
 
