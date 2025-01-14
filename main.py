@@ -8,7 +8,8 @@ from notes import Notes  # Importing the Notes class from the notes module
 from tasks import Tasks
 from tools import Tools
 from games import Games
-from xp_bar import XPBar
+from home import Home
+
 
 class MainApp:
 
@@ -51,7 +52,7 @@ class MainApp:
         self.create_right_frame()
 
         # Initialize default frame (Home)
-        self.show_frame(self.frames['Games'])
+        self.show_frame(self.frames['Home'])
 
     def create_left_frame(self):
         self.left_frame = tk.Frame(self.root, bg='#0486ba')
@@ -69,12 +70,16 @@ class MainApp:
             ("Tools", self.show_tools_frame),  # New Tools button
         ]
         for text, command in buttons:
-            tk.Button(self.left_frame, text=text, font=("Arial", 15), bd=0, bg="#79ADDC", fg="white", width=7,
-                      activebackground="#7990dc", activeforeground="white", command=command).pack(pady=10)
+            ctk.CTkButton(self.left_frame, text=text,text_color="black", font=("Arial", 20),
+                          border_width=0, fg_color="white",
+                          width=150,height=50,command=command,hover_color="white").pack(pady=15)
 
+    # 79ADDC
     def create_top_frame(self):
         self.top_frame = tk.Frame(self.root, height=80, bg="#0486ba")
         self.top_frame.pack_propagate(False)
+
+        self.LevelLearn_label = ctk.CTkLabel(self.top_frame,text="LevelLearn",bg_color="#0486ba")
 
         self.level_label = tk.Label(self.top_frame, text="Lvl:1", bg="#0486ba")
         self.current_level = 0
@@ -93,7 +98,7 @@ class MainApp:
         self.right_frame.pack(side='right', expand=True, fill='both', padx=10, pady=20)
 
         self.frames = {
-            'Home': self.create_home_frame(),
+            'Home': Home(self.right_frame).get_frame(),
             'Notes': Notes(self.right_frame).get_frame(),
             'Tasks': Tasks(self.right_frame,self).get_frame(),
             'Games': Games(self.right_frame).get_frame(),
@@ -103,31 +108,6 @@ class MainApp:
         # Place all frames on the right_frame (stacked on top of each other)
         for frame in self.frames.values():
             frame.place(relwidth=1, relheight=1)
-
-    def create_home_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-        home_label = tk.Label(frame, text="Home Page", font=("Arial", 20), bg='white', fg='#333333')
-        home_label.grid(row=0, column=0)
-
-
-
-        diff = "simple"
-        btn = ctk.CTkButton(frame, text="click", command=lambda: self.add_xp(diff))
-        #btn.grid(row=1, column=2)
-
-        return frame
-
-    def create_games_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-        games_label = tk.Label(frame, text="Games Page", font=("Arial", 20), bg='white', fg='#333333')
-        games_label.pack(pady=20)
-        return frame
-
-    def create_tools_frame(self):
-        frame = tk.Frame(self.right_frame, bg='white')
-        tools_label = tk.Label(frame, text="Tools Page", font=("Arial", 20), bg='white', fg='#333333')
-        tools_label.pack(pady=20)
-        return frame
 
     @staticmethod
     def show_frame(frame):

@@ -7,6 +7,8 @@ import customtkinter as ctk
 
 task_list = []  # Global list of tasks
 
+def get_tasks():
+    return task_list
 
 class TaskClass:
     def __init__(self, title, desc, diff):
