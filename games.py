@@ -25,9 +25,8 @@ class Games:
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to launch the game: {e}")
 
-        self.game1_btn=ctk.CTkButton(self.frame,text="",width=40,height=40,command=launch_pygame_program)
-        self.game1_btn.pack()
-
+        self.game1_btn=ctk.CTkButton(self.frame,text="game 1",width=80,height=80,command=launch_pygame_program)
+        self.game1_btn.grid(row=1,column=0,padx=10,pady=10)
 
 
     def get_frame(self):

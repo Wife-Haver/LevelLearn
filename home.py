@@ -4,19 +4,77 @@ import customtkinter as ctk
 from tasks import get_tasks
 from tkinter import filedialog,messagebox
 import os
+from tasks import TaskClass
 
+import pickle
 
 
 class Home:
     def __init__(self,parent):
-        self.task_item_frame = None
         self.frame = tk.Frame(parent, bg='white')
+
+
+
+
+
+
+        #sample tasks
+        task_list = get_tasks()
+        task_list.append(TaskClass("sample1", "yo wassup", "simple"))
+        task_list.append(TaskClass("sample2", "yo wassup", "simple"))
+        task_list.append(TaskClass("sample3", "yo wassup", "simple"))
+
+        #ongoing tasks
+        self.tasks_frame = None
+        self.tasks_frame = ctk.CTkFrame(self.frame, fg_color="white")
+        self.tasks_frame.grid(row=1,column=1)
+        tasks_label = tk.Label(self.tasks_frame, text="All Tasks", bg="white", font=("Arial", 10))
+        tasks_label.pack(padx = 10)
+        self.task_canvas = tk.Canvas(self.tasks_frame, background="#f0f0f0")
+        self.tasks_scrollbar = ctk.CTkScrollbar(self.tasks_frame, command=self.task_canvas.yview)
+
+        self.task_frame = tk.Frame(self.task_canvas, bg="#f0f0f0")
+        self.task_canvas.create_window((0, 0), window=self.task_frame, anchor="nw")
+        self.task_canvas.configure(yscrollcommand=self.tasks_scrollbar.set)
+
+        self.task_canvas.pack(side="left", fill="both", expand=True)
+        self.tasks_scrollbar.pack(side="right", fill="y")
+
+        # Populate tasks from the global task list
+        self.populate_tasks()
+
+        # Bind canvas resize
+        self.task_frame.bind("<Configure>", self.on_frame_configure)
+
+        # quick access notes
         quick_access_notes = tk.Label(self.frame, text="Notes quick acess",
                                       font=("Arial", 10), bg='white', fg='#333333')
         quick_access_notes.grid(row=0,column=0)
 
-        #ongoing tasks for home page
-        self.tasks_frame = ctk.CTkFrame(self.frame,fg_color="black")
+    def populate_tasks(self):
+        tasks = get_tasks()  # Get the global task list
+        for task in tasks:
+            self.add_task_to_canvas(task)
+
+    def add_task_to_canvas(self, task):
+        task_item_frame = ctk.CTkFrame(self.task_frame, fg_color="#f0f0f0")
+
+        color_indicator = tk.Label(task_item_frame, text=" ", width=2, height=1)
+        if task.diff == "simple":
+            color_indicator.configure(bg="green")
+        elif task.diff == "moderate":
+            color_indicator.configure(bg="orange")
+        elif task.diff == "complex":
+            color_indicator.configure(bg="red")
+        color_indicator.grid(row=0, column=0, padx=5, pady=5)
+
+        task_label = tk.Label(task_item_frame, text=task.title, anchor="w", bg="#f0f0f0")
+        task_label.grid(row=0, column=1, sticky="w", padx=5)
+
+        task_item_frame.pack(fill="x", padx=5, pady=5)
+
+    def on_frame_configure(self, event=None):
+        self.task_canvas.configure(scrollregion=self.task_canvas.bbox("all"))
 
         # Store the shortcuts and their file paths
         self.shortcuts = {}
@@ -67,11 +125,10 @@ class Home:
                 del self.shortcuts[selected_file]
             self.listbox.delete(index)
 
+        # ongoing tasks for home page
+
+
+
 
     def get_frame(self):
         return self.frame
-
-
-
-
-#

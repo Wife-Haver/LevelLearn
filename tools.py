@@ -18,15 +18,15 @@ class Tools:
         # Load the flashcard icon
         self.img_path = "assets/pics/Flash Card.png"
         self.flashcard_icon = Image.open(self.img_path).resize((100, 100))
-        self.tool_icon = ctk.CTkImage(light_image=self.flashcard_icon,
-                                      dark_image=self.flashcard_icon,
-                                      size=(100, 100))
+        # self.tool_icon = ctk.CTkImage(light_image=self.flashcard_icon,
+        #                               dark_image=self.flashcard_icon,
+        #                               size=(100, 100))
 
         # Flashcard button
         self.flashcard_btn = ctk.CTkButton(
             self.frame,
-            image=self.tool_icon,
-            text="",  # Added text to clarify button purpose
+            #image=self.tool_icon
+            text="flashcards",  # Added text to clarify button purpose
             command=self.open_flashcards
         )
         self.flashcard_btn.pack(side="top", anchor="nw", padx=20, pady=20)
