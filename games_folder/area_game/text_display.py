@@ -12,6 +12,7 @@ class DisplayText:
       self.screen = screen
 
 
+
    def display_text(self,text,pos,color):
       self.text = text
       self.pos = pos

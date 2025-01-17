@@ -12,17 +12,9 @@ import pickle
 class Home:
     def __init__(self,parent):
         self.frame = tk.Frame(parent, bg='white')
-
-
-
-
-
-
         #sample tasks
         task_list = get_tasks()
-        task_list.append(TaskClass("sample1", "yo wassup", "simple"))
-        task_list.append(TaskClass("sample2", "yo wassup", "simple"))
-        task_list.append(TaskClass("sample3", "yo wassup", "simple"))
+        task_list.append(TaskClass("New Task", "Sample Task", "simple"))
 
         #ongoing tasks
         self.tasks_frame = None

@@ -20,11 +20,6 @@ class TaskClass:
         self.desc = desc
         self.diff = diff
 
-
-
-
-
-
 class Tasks:
     def __init__(self, parent,main_app):
         self.frame = tk.Frame(parent, bg='white')
@@ -33,6 +28,8 @@ class Tasks:
         self.frame.grid(row=0, column=0, sticky="nsew")
         self.frame.columnconfigure([0, 1, 2], weight=1)
         self.frame.rowconfigure(0, weight=1)
+
+
 
         # Frames
         frame1 = tk.Frame(self.frame, bg="white", borderwidth=0.5, relief="solid", width=200)
@@ -53,6 +50,7 @@ class Tasks:
         frame3.grid(row=0, column=2, sticky="nsew")
         frame3a.pack(side=TOP, fill="both", expand=True)
         frame3b.pack(side=BOTTOM, fill="both", expand=True)
+
 
         # Frame1 - Task Creation
         tk.Label(frame1, text="New Task", bg="white").grid(row=0, column=1, pady=10)

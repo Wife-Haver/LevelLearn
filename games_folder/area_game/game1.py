@@ -126,7 +126,7 @@ class MainGame:
 
         #timer for remaining time
 
-        timer_duration = 10000
+        timer_duration = 8000
         elapsed_time = pygame.time.get_ticks() - self.start_time
         self.time_left = max(0, (timer_duration - elapsed_time) // 1000)
         font = pygame.font.Font(None, 36)
