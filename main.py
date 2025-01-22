@@ -1,7 +1,4 @@
 import tkinter as tk
-from tkinter import Label
-from xml.etree.ElementTree import tostring
-
 import customtkinter as ctk
 
 from notes import Notes  # Importing the Notes class from the notes module

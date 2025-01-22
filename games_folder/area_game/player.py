@@ -9,10 +9,10 @@ from config import *
 
 class Player:
     def __init__(self):
-        self.image = pygame.image.load(join(dirname(__file__),"game_assets/players_sprites/down/1.png"))
+        self.image = pygame.image.load("1.png")
         self.image = pygame.transform.scale(self.image, (48, 68))
         self.speed = PLAYER_SPEED
-        self.frect = self.image.get_frect()
+        self.frect = self.image.get_rect()
         self.frect.center = (SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
 
     def draw(self, screen):

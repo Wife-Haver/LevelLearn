@@ -1,16 +1,12 @@
 
 import pygame
-from os.path import dirname,join
-from config import *
 import random
-from text_display import DisplayText
 
 
 
 
 
-
-class Zone(pygame.Rect):
+class Zone:
     def __init__(self, color, x_pos, y_pos, width, height):
         super().__init__()
         self.color = color

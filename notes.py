@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 
@@ -7,6 +6,7 @@ class Notes:
     def __init__(self, parent):
         # Create the main frame for the Notes app
         self.frame = tk.Frame(parent, bg='white')
+
 
         # Tab header
         tab_frame = tk.Frame(self.frame, bg='#B4B4B4')
@@ -22,7 +22,7 @@ class Notes:
         filemenu.add_command(label="Save", command=self.save_file)
         filemenu.add_command(label="Save as", command=self.save_file)
         filemenu.add_command(label="Open", command=self.open_file)
-        filemenu.add_command(label="Exit", command=parent.quit)
+        #filemenu.add_command(label="Exit", command=parent.quit)
         filebutton["menu"] = filemenu
         filebutton.pack(side="left", padx=5, pady=5)
 

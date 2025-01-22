@@ -3,6 +3,7 @@ import customtkinter as ctk
 from PIL import Image
 from tools_folder.auto_flashcards import FlashcardTool
 from tools_folder.alphabetize import Alphabetize
+from os.path import join,dirname
 
 
 class Tools:
@@ -16,8 +17,9 @@ class Tools:
 
     def load_tools(self):
         # Load the flashcard icon
-        self.img_path = "assets/pics/Flash Card.png"
-        self.flashcard_icon = Image.open(self.img_path).resize((100, 100))
+
+        #self.img_path = join(dirname(__file__),"assets\\pics\\Flash Card.png")
+        #self.flashcard_icon = Image.open(self.img_path).resize((100, 100))
         # self.tool_icon = ctk.CTkImage(light_image=self.flashcard_icon,
         #                               dark_image=self.flashcard_icon,
         #                               size=(100, 100))

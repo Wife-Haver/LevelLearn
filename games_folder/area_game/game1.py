@@ -1,12 +1,12 @@
 # game1.py
-
 import pygame
 from os.path import join, dirname
+
+
 
 from player import Player
 from config import *
 from text_display import DisplayText
-import areas
 from areas import Game_logic
 
 
@@ -16,6 +16,8 @@ class MainGame:
 
 
     def __init__(self):
+
+        
         # Initialize Pygame
         pygame.init()
 
@@ -32,22 +34,22 @@ class MainGame:
         self.game_logic = Game_logic()
 
 
-        self.stem_image = pygame.image.load(join(dirname(__file__),"game_assets/areas/stem.png"))
-        self.abm_image = pygame.image.load(join(dirname(__file__),"game_assets/areas/abm.png"))
-        self.ict_image = pygame.image.load(join(dirname(__file__),"game_assets/areas/ict.png"))
-        self.humss_image = pygame.image.load(join(dirname(__file__),"game_assets/areas/humss.png"))
+        self.stem_image = pygame.image.load("stem.png")
+        self.abm_image = pygame.image.load("abm.png")
+        self.ict_image = pygame.image.load("ict.png")
+        self.humss_image = pygame.image.load("humss.png")
 
         #creating zones
-        self.stem_area = self.stem_image.get_frect()
+        self.stem_area = self.stem_image.get_rect()
         self.stem_area.topleft=(150,100)
 
-        self.abm_area = self.abm_image.get_frect()
+        self.abm_area = self.abm_image.get_rect()
         self.abm_area.topleft = (425,100)
 
-        self.ict_zone = self.ict_image.get_frect()
+        self.ict_zone = self.ict_image.get_rect()
         self.ict_zone.topleft = (150,375)
 
-        self.humss_zone = self.humss_image.get_frect()
+        self.humss_zone = self.humss_image.get_rect()
         self.humss_zone.topleft = (425,375)
         self.text_display = DisplayText(self.screen,48)
 

@@ -1,9 +1,4 @@
 import pygame
-import time
-import random
-from os.path import join,dirname
-
-from config import *
 
 
 class DisplayText:
